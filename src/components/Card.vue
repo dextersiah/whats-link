@@ -120,7 +120,7 @@ export default {
       if (navigator.share) {
         try {
           const shareData = {
-            url: this.generateLink,
+            url: this.generatedLink,
           };
           await navigator.share(shareData);
           console.log("Share successfull");
