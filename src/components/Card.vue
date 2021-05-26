@@ -91,6 +91,11 @@ export default {
   methods: {
     countrySelected(country) {
       this.selectedCountry = country;
+      localStorage.setItem(
+        "countryOrigin",
+        JSON.stringify(this.selectedCountry)
+      );
+
       this.toggleDropdown();
     },
     toggleDropdown() {
@@ -125,10 +130,15 @@ export default {
     countryList: {
       immediate: true,
       handler: function (data) {
-        console.log("watched");
-        console.log(data);
-        this.selectedCountry.code = data[0].callingCodes[0];
-        this.selectedCountry.flag = data[0].flag;
+        const countryOrigin = JSON.parse(localStorage.getItem("countryOrigin"));
+
+        if (countryOrigin == null) {
+          this.selectedCountry.code = data[0].callingCodes[0];
+          this.selectedCountry.flag = data[0].flag;
+        } else {
+          this.selectedCountry.code = countryOrigin.code;
+          this.selectedCountry.flag = countryOrigin.flag;
+        }
       },
     },
   },
