@@ -1,4 +1,10 @@
 module.exports = {
+  configureWebpack: {
+    optimization: {
+      minimize: true,
+      usedExports: true,
+    },
+  },
   css: {
     loaderOptions: {
       sass: {
