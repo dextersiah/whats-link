@@ -113,9 +113,7 @@ export default {
       if (navigator.share) {
         try {
           const shareData = {
-            title: "Web Share Demo",
-            text: "Wanted to share this with you",
-            url: "https://josephkhan.me",
+            url: this.generateLink,
           };
           await navigator.share(shareData);
           console.log("Share successfull");
