@@ -1,0 +1,44 @@
+//Colors
+$primaryBg: #08332d;
+$primary: #1ebea5;
+$light-primary: #d9e2e0;
+$off-white: #eff7f6;
+
+body {
+  background: $primaryBg;
+  font-family: "Poppins";
+  padding: 20px;
+}
+
+h1,
+h2,
+h3 {
+  color: $primary;
+}
+
+p {
+  margin: 0;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+  outline: none;
+}
+
+::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: rgba($color: #08332d, $alpha: 0.3);
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: rgba($color: #08332d, $alpha: 0.3);
+}
+
+::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: rgba($color: #08332d, $alpha: 0.3);
+}
