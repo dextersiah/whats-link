@@ -54,8 +54,10 @@
     <div v-else class="generated-section">
       <p>Your link is ready</p>
       <a class="btn" :href="generatedLink">Open in WhatsApp</a>
-      <p class="separator">OR</p>
-      <button class="btn btn-link">SHARE YOUR LINK</button>
+      <template v-if="supported">
+        <p class="separator">OR</p>
+        <button class="btn btn-link" @click="shareLink">SHARE YOUR LINK</button>
+      </template>
     </div>
   </div>
 </template>
@@ -76,6 +78,7 @@ export default {
       dropdownOpen: false,
       hasError: false,
       generatedLink: "",
+      supported: false,
     };
   },
   created() {
@@ -86,6 +89,8 @@ export default {
         this.selectedCountry.code = this.listOfPhoneCode[0].callingCodes[0];
         this.selectedCountry.flag = this.listOfPhoneCode[0].flag;
       });
+
+    navigator.share ? (this.supported = true) : (this.supported = false);
   },
   methods: {
     countrySelected(country) {
@@ -102,6 +107,23 @@ export default {
         this.generatedLink = `https://api.whatsapp.com/send?phone=${this.selectedCountry.code}${this.phoneNumber}&text=${this.message}`;
       } else {
         this.hasError = true;
+      }
+    },
+    async shareLink() {
+      if (navigator.share) {
+        try {
+          const shareData = {
+            title: "Web Share Demo",
+            text: "Wanted to share this with you",
+            url: "https://josephkhan.me",
+          };
+          await navigator.share(shareData);
+          console.log("Share successfull");
+        } catch (err) {
+          console.log("Error: ", err);
+        }
+      } else {
+        alert("error");
       }
     },
   },
