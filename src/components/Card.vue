@@ -6,7 +6,7 @@
       <div class="phone-number row">
         <label for="">Enter the phone number whom you want to sent.</label>
         <div class="field-row">
-          <div class="country-dropdown">
+          <div class="country-dropdown" @focusout="toggleDropdown" tabindex="0">
             <div class="selected-country" @click="toggleDropdown">
               <div
                 class="selected-country-flag"
@@ -134,6 +134,8 @@ export default {
   padding: 20px;
   background: white;
   border-radius: 8px;
+  max-width: 400px;
+  margin: 40px auto;
 }
 
 .field-row {

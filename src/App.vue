@@ -24,11 +24,20 @@ export default {
 </script>
 
 <style lang="scss">
+#app {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
 .title {
   display: grid;
-  grid-template-columns: 50px auto;
+  grid-template-columns: 50px max-content;
   align-items: center;
   grid-gap: 1rem;
+
+  @media screen and (min-width: 700px) {
+    justify-content: center;
+  }
 
   img {
     width: 50px;
@@ -40,5 +49,9 @@ export default {
   color: $light-primary;
   font-size: 18px;
   font-weight: 500;
+
+  @media screen and (min-width: 700px) {
+    text-align: center;
+  }
 }
 </style>
