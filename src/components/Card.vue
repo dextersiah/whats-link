@@ -1,7 +1,11 @@
 <template>
-  <div class="card-wrapper" v-if="listOfPhoneCode">
+  <div class="card-wrapper" v-if="countryList">
     <!-- Form -->
-    <form action="" @submit.prevent="generateLink" v-if="!generatedLink">
+    <form
+      action=""
+      @submit.prevent="generateLink"
+      v-if="!generatedLink.length > 0"
+    >
       <!-- Phone Number -->
       <div class="phone-number row">
         <label for="">Enter the phone number whom you want to sent.</label>
@@ -17,7 +21,7 @@
               <img src="../assets/images/arrow_down.svg" alt="arrow down" />
             </div>
             <DropdownCountry
-              :countries="listOfPhoneCode"
+              :countries="countryList"
               @on-item-selected="countrySelected"
               :open="dropdownOpen"
             />
@@ -68,9 +72,9 @@ export default {
   components: {
     DropdownCountry,
   },
+  props: ["countryList"],
   data() {
     return {
-      listOfPhoneCode: [],
       selectedCountry: {},
       phoneNumber: "",
       message: "",
@@ -82,14 +86,6 @@ export default {
     };
   },
   created() {
-    fetch("https://restcountries.eu/rest/v2/all?fields=name;callingCodes;flag")
-      .then((response) => response.json())
-      .then((data) => {
-        this.listOfPhoneCode = data;
-        this.selectedCountry.code = this.listOfPhoneCode[0].callingCodes[0];
-        this.selectedCountry.flag = this.listOfPhoneCode[0].flag;
-      });
-
     navigator.share ? (this.supported = true) : (this.supported = false);
   },
   methods: {
@@ -123,6 +119,17 @@ export default {
       } else {
         alert("error");
       }
+    },
+  },
+  watch: {
+    countryList: {
+      immediate: true,
+      handler: function (data) {
+        console.log("watched");
+        console.log(data);
+        this.selectedCountry.code = data[0].callingCodes[0];
+        this.selectedCountry.flag = data[0].flag;
+      },
     },
   },
 };

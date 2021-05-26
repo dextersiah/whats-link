@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" v-if="!apiIsLoading">
     <div class="heading">
       <div class="title">
         <img src="./assets/images/whatsapp.svg" alt="Whatsapp logo" />
@@ -9,16 +9,34 @@
         Send Whatsapp messages without adding to your contact
       </p>
     </div>
-    <Card />
+    <Card :countryList="listOfPhoneCode" />
   </div>
+
+  <Loader v-else />
 </template>
 
 <script>
 import Card from "./components/Card";
+import Loader from "./components/Loader";
 export default {
   name: "App",
   components: {
     Card,
+    Loader,
+  },
+  data() {
+    return {
+      apiIsLoading: true,
+      listOfPhoneCode: [],
+    };
+  },
+  created() {
+    fetch("https://restcountries.eu/rest/v2/all?fields=name;callingCodes;flag")
+      .then((response) => response.json())
+      .then((data) => {
+        this.listOfPhoneCode = data;
+        this.apiIsLoading = false;
+      });
   },
 };
 </script>
