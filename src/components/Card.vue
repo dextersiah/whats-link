@@ -10,8 +10,12 @@
       <div class="phone-number row">
         <label for="">Enter the phone number whom you want to sent.</label>
         <div class="field-row">
-          <div class="country-dropdown" @focusout="toggleDropdown" tabindex="0">
-            <div class="selected-country" @click="toggleDropdown">
+          <div
+            class="country-dropdown"
+            @focusout="toggleDropdown(false)"
+            tabindex="0"
+          >
+            <div class="selected-country" @click="toggleDropdown(true)">
               <div
                 class="selected-country-flag"
                 :style="{
@@ -96,16 +100,18 @@ export default {
         JSON.stringify(this.selectedCountry)
       );
 
-      this.toggleDropdown();
+      this.toggleDropdown(false);
     },
-    toggleDropdown() {
-      this.dropdownOpen = !this.dropdownOpen;
+    toggleDropdown(toggle) {
+      this.dropdownOpen = toggle;
     },
     generateLink() {
       this.isGenerating = true;
 
       if (!this.phoneNumber.length >= 0) {
-        this.generatedLink = `https://api.whatsapp.com/send?phone=${this.selectedCountry.code}${this.phoneNumber}&text=${this.message}`;
+        const encodedURI = encodeURI(this.message);
+        this.generatedLink = `https://wa.me/${this.selectedCountry.code}${this.phoneNumber}?text=${encodedURI}`;
+        console.log(this.generatedLink);
       } else {
         this.hasError = true;
       }
